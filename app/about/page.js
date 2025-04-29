@@ -169,9 +169,18 @@ export default function AboutPage() {
                         about tech and community building, the BCA Association – MMC welcomes you.
                         Together, let's learn, lead, and grow.
                     </p>
-// At the top of app/about/page.js
-import Link from 'next/link';
-…
+--- a/app/about/page.js
++++ b/app/about/page.js
+@@ -1,3 +1,4 @@
+ import React from 'react';
+ import SectionHeader from "@/components/SectionHeader";
+ import ContactSection from "@/components/ContactSection";
++import Link from 'next/link';
+@@ -172,174 +172,172 @@ export default function AboutPage() {
+-  // At the top of app/about/page.js
+-  import Link from 'next/link';
+   {/* …the rest of your JSX… */}
+ }
                     <Link
                         href="/contact"
                         className="inline-block py-3 px-8 bg-gradient-to-r from-blue-600 to-blue-400 text-white font-medium rounded-md shadow-md hover:shadow-lg hover:-translate-y-1 transition-all"
