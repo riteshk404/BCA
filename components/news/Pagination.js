@@ -38,15 +38,14 @@ const Pagination = ({ currentPage, totalPages }) => {
     <div className="flex justify-center mt-10">
       <div className="flex space-x-1">
         {/* Previous Page Button */}
-        <Link 
-          href={currentPage > 1 ? `/news?page=${currentPage - 1}` : '#'}
+        <button
+          onClick={() => currentPage > 1 && (window.location.href = `/news?page=${currentPage - 1}`)}
           className={`px-4 py-2 rounded-md ${
             currentPage === 1
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-white hover:bg-gray-100 text-gray-700'
           } border border-gray-200 flex items-center`}
-          aria-disabled={currentPage === 1}
-          onClick={e => currentPage === 1 && e.preventDefault()}
+          disabled={currentPage === 1}
         >
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
