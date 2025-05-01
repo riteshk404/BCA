@@ -60,7 +60,7 @@ A comprehensive web platform for the BCA Association-MMC, built with Next.js 15 
 ### Coding Standards
 
 - Follow the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
-- Use er for code formatting
+- Use Prettier for code formatting
 - Implement semantic HTML forESLint and Pretti accessibility
 - Write comprehensive comments for complex logic
 
