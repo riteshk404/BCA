@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const NewsCard = ({ id, title, description, publishedAt, urlToImage, source }) => {
   const [imgError, setImgError] = useState(false);
-  
+
   // Format the date
   const formattedDate = new Date(publishedAt).toLocaleDateString('en-US', {
     day: 'numeric',
@@ -43,11 +43,11 @@ const NewsCard = ({ id, title, description, publishedAt, urlToImage, source }) =
         </div>
 
         <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">{title}</h3>
-        
+
         <p className="text-gray-600 mb-4 line-clamp-3">
           {description || "No description available for this article."}
         </p>
-        
+
         <div className="mt-auto">
           <Link
             href={`/news/${id}`}

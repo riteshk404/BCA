@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BCA Association
 
-## Getting Started
+![BCA Association](https://img.shields.io/badge/BCA-Association-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Next.js](https://img.shields.io/badge/Next.js-15.0.2-black?style=for-the-badge&logo=next.js)
 
-First, run the development server:
+A comprehensive web platform for the BCA Association-MMC, built with Next.js 15 and modern web technologies. The platform serves as a central hub for technology news, member information, and resources for BCA Association Members.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Modern UI**: Clean, responsive design that works across all devices
+- **Fast Performance**: Leveraging Next.js for optimized server-side rendering
+- **SEO Friendly**: Built with best practices for search engine visibility
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🔧 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js 15](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 
-## Learn More
+## 📋 Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18.x or later
+- npm or yarn package manager
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1. Clone the repository
+   ```bash
+   git clone https://github.com/mechimavericks/BCA-Association.git
+   cd BCA-Association
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Create environment variables
+   ```bash
+   cp .env.example .env.local
+   ```
+   Then edit .env.local to add your API keys and settings
+
+4. Start the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+
+## 🛠️ Development
+
+### Coding Standards
+
+- Follow the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+- Use Prettier for code formatting
+- Implement semantic HTML forESLint and Pretti accessibility
+- Write comprehensive comments for complex logic
+
+### Branch Naming Convention
+
+- `feature/feature-name`: For new features
+- `fix/bug-description`: For bug fixes
+- `docs/update-description`: For documentation updates
+- `refactor/component-name`: For code refactoring
+
+## 🤝 Contributing
+
+We welcome contributions! Please read our [Contribution Guidelines](https://github.com/mechimavericks/.github/blob/main/profile/Contribution.md) before submitting your work.
+
+## 📜 Code of Conduct
+
+This project [Code of Conduct](https://github.com/mechimavericks/.github/blob/main/profile/CodeOfConduct.md). By participating, you are expected to uphold this code.
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+## 👏 Acknowledgements
+
+- [Next.js](https://nextjs.org/) - The React framework for production
+- [Tailwind CSS](https://tailwindcss.com/) - For utility-first CSS
+
