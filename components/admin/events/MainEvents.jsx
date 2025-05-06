@@ -2,7 +2,8 @@
 import { uploadImage } from "@/lib/uploadImage";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 
 const Button = ({ onClick, children }) => (
   <button
@@ -69,6 +70,10 @@ const MainEvent = ({ events }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [editUploading, setEditUploading] = useState(false);
+  const editorEditRef = useRef(null);
+  const editorCreateRef = useRef(null);
+  const NEXT_PUBLIC_TINYMCE_API_KEY= process.env.NEXT_PUBLIC_TINYMCE_API_KEY;
+  const editorApiKey = NEXT_PUBLIC_TINYMCE_API_KEY || "your-api-key"; // Replace with your TinyMCE API key
 
   const router = useRouter();
 
@@ -86,6 +91,10 @@ const MainEvent = ({ events }) => {
     setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
   };
 
+  const handleCreateEditorChange = (content) => {
+    setNewEvent({ ...newEvent, content });
+  };
+
   const handleEdit = (event) => {
     setEditEvent(event);
     setIsEditModalOpen(true);
@@ -93,6 +102,10 @@ const MainEvent = ({ events }) => {
 
   const handleEditChange = (e) => {
     setEditEvent({ ...editEvent, [e.target.name]: e.target.value });
+  };
+
+  const handleEditEditorChange = (content) => {
+    setEditEvent({ ...editEvent, content });
   };
 
   const handleSaveEdit = async () => {
@@ -304,11 +317,44 @@ const MainEvent = ({ events }) => {
               onChange={handleEditChange}
             />
             <Label>Content</Label>
-            <Textarea
-              name="content"
-              value={editEvent?.content}
-              onChange={handleEditChange}
+            <Editor
+              apiKey="your-api-key" // Replace with your TinyMCE API key
+              onInit={(evt, editor) => (editorEditRef.current = editor)}
+              initialValue={editEvent?.content}
+              init={{
+                height: 300,
+                menubar: true,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "code",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+              onEditorChange={handleEditEditorChange}
             />
+
             <Label>Date</Label>
             <Input
               type="date"
@@ -397,7 +443,7 @@ const MainEvent = ({ events }) => {
       {/* Create Event Modal */}
       <Modal
         open={isCreateModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
+        onClose={() => setIsCreateModalOpen(false)}
         title="Create Event"
       >
         {(!uploading && (
@@ -415,11 +461,43 @@ const MainEvent = ({ events }) => {
               onChange={handleChange}
             />
             <Label>Content</Label>
-            <Textarea
-              name="content"
-              value={newEvent.content}
-              onChange={handleChange}
+            <Editor
+              apiKey={editorApiKey} // Replace with your TinyMCE API key
+              onInit={(evt, editor) => (editorCreateRef.current = editor)}
+              init={{
+                height: 300,
+                menubar: true,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "code",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+              onEditorChange={handleCreateEditorChange}
             />
+
             <Label>Date</Label>
             <Input
               type="date"
