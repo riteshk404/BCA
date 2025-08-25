@@ -2,21 +2,19 @@
 
 import { useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { FaShareAlt,FaExpandAlt } from "react-icons/fa"; // share icon
+import { FaShareAlt, FaExpandAlt, FaSearchPlus, FaSearchMinus } from "react-icons/fa";
 
-const pdfFiles = {
-  model1: { title: "Entrance Model Set 1", path: "/pdfs/model1.pdf" },
-  model2: { title: "Entrance Model Set 2", path: "/pdfs/model2.pdf" },
-  model3: { title: "Entrance Model Set 3", path: "/pdfs/model3.pdf" },
-  model4: { title: "Entrance Model Set 4", path: "/pdfs/model4.pdf" },
-};
-const fsBtnRound = " rounded-full w-10 h-10  text-gray-600 flex items-center justify-center gap-2 group cursor-pointer transition-all duration-200 ease-in-out hover:text-blue-600 hover:shadow hover:bg-gray-200"
+
+const fsBtnRound =
+  "rounded-full w-10 h-10 text-gray-600 flex items-center justify-center gap-2 group cursor-pointer transition-all duration-200 ease-in-out hover:text-blue-600 hover:shadow hover:bg-gray-200";
+
 export default function PdfViewerPage() {
   const { file } = useParams();
   const router = useRouter();
   const selected = pdfFiles[file];
 
   const [scale, setScale] = useState(1);
+  const iframeRef = useRef(null);
 
   if (!selected) {
     return <p className="pt-24 text-center text-red-600">PDF not found.</p>;
@@ -29,14 +27,12 @@ export default function PdfViewerPage() {
         await navigator.share({ title: selected.title, url });
       } else {
         await navigator.clipboard.writeText(url);
-        setShareText("Copied!");
-        setTimeout(() => setShareText("Share"), 2000);
+        alert("Link copied to clipboard!");
       }
     } catch (err) {
       console.log("Share failed:", err);
     }
   };
-  const iframeRef = useRef(null);
 
   const openFullscreen = () => {
     const iframeEl = iframeRef.current;
@@ -53,34 +49,30 @@ export default function PdfViewerPage() {
     <div className="max-w-6xl mx-auto pt-24">
       {/* Header */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-        <div className="flex  items-center">
+        <div className="flex items-center">
           <button
             onClick={() => router.push("/entrance-questions")}
-            className="text-gray-700 hover:text-blue-600 mr-4 font-semibold hover:bg-gray-200 p-1 hover:shadow rounded-xl  flex items-center"
+            className="text-gray-700 hover:text-blue-600 mr-4 font-semibold hover:bg-gray-200 p-1 hover:shadow rounded-xl flex items-center"
           >
             <span className="mr-1">←</span> Back
           </button>
-          <h1 className="text-3xl font-bold text-blue-900 ">{selected.title}</h1>
+          <h1 className="text-3xl font-bold text-blue-900">{selected.title}</h1>
         </div>
 
+        {/* Action buttons */}
         <div className="flex gap-3">
-          {/* fulscreen */}
-          <button 
-          onClick={openFullscreen}
-          className={fsBtnRound}
-          >
-             <FaExpandAlt />
+      
+          {/* Fullscreen */}
+          <button onClick={openFullscreen} className={fsBtnRound}>
+            <FaExpandAlt />
           </button>
-          {/* Share button */}
-          <button
-            onClick={handleShare}
-            className={fsBtnRound}
-          >
+
+          {/* Share */}
+          <button onClick={handleShare} className={fsBtnRound}>
             <FaShareAlt />
-
           </button>
 
-          {/* Download button */}
+          {/* Download */}
           <button
             onClick={() => {
               const link = document.createElement("a");
@@ -92,23 +84,26 @@ export default function PdfViewerPage() {
           >
             Download
           </button>
-
-          
         </div>
       </div>
 
       {/* PDF Viewer */}
-      <div className="border justify-self-center rounded shadow overflow-auto h-[80vh] w-full " >
-        <iframe
-          ref={iframeRef}
-          src="/pdfs/model1.pdf"
-          className="w-full h-screen"
-         
-          title={selected.title}
-          width={`${scale * 100}%`}
-          height="100%"
-          style={{ border: "none", transformOrigin: "top left" }}
-        />
+      <div className="border justify-self-center rounded shadow overflow-auto h-[80vh] w-full">
+        <div
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+            width: `${100 / scale}%`, // ensures full width when scaled
+          }}
+        >
+          <iframe
+            ref={iframeRef}
+            src={selected.path} // ✅ dynamic PDF path
+            className="w-full h-[80vh]"
+            title={selected.title}
+            style={{ border: "none" }}
+          />
+        </div>
       </div>
     </div>
   );

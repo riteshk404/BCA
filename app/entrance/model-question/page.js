@@ -24,7 +24,7 @@ export default function EntranceQuestionsPage() {
         {entranceQuestions.map((q, idx) => (
           <Link
             key={idx}
-            href={`/entrance-questions/${q.file}`}
+            href={`/entrance/model-question/${q.file}`}
             className="border rounded-lg shadow hover:shadow-md p-6 text-left transition transform hover:-translate-y-1 hover:bg-blue-50 cursor-pointer"
           >
             <h3 className="text-lg font-medium text-blue-800">{q.title}</h3>
