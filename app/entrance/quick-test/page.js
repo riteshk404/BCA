@@ -17,7 +17,7 @@ export default function EntranceQuestionsPage() {
         Let's take a quick test 
       </h1>
       <p className="mt-2 text-lg md:text-xl text-gray-600">
-        Clicking on <b>Start</b> will make full screen and you can't change tabs without finishing test
+        Click on <b>Start</b>
       </p>
     </div>
   );
