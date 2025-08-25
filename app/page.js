@@ -5,38 +5,7 @@ import React from "react";
 import TicketForm from "@/components/tickets/TicketMain";
 
 const page = async () => {
-  // const events = {
-  //   status: "success",
-  //   data: [
-  //     {
-  //       id: 1,
-  //       title: "Event 1",
-  //       description: "Event 1 Description",
-  //       date: "2022-09-01",
-  //       time: "10:00",
-  //       venue: "Venue 1",
-  //       image: "https://source.unsplash.com/random/800x600",
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "Event 2",
-  //       description: "Event 2 Description",
-  //       date: "2022-09-02",
-  //       time: "10:00",
-  //       venue: "Venue 2",
-  //       image: "https://source.unsplash.com/random/800x600",
-  //     },
-  //     {
-  //       id: 3,
-  //       title: "Event 3",
-  //       description: "Event 3 Description",
-  //       date: "2022-09-03",
-  //       time: "10:00",
-  //       venue: "Venue 3",
-  //       image: "https://source.unsplash.com/random/800x600",
-  //     },
-  //   ],
-  // };
+ 
 
   return (
     <div>
