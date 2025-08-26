@@ -1,109 +1,73 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { FaShareAlt, FaExpandAlt, FaSearchPlus, FaSearchMinus } from "react-icons/fa";
-
-
-const fsBtnRound =
-  "rounded-full w-10 h-10 text-gray-600 flex items-center justify-center gap-2 group cursor-pointer transition-all duration-200 ease-in-out hover:text-blue-600 hover:shadow hover:bg-gray-200";
 
 export default function PdfViewerPage() {
   const { file } = useParams();
   const router = useRouter();
-  const selected = pdfFiles[file];
 
-  const [scale, setScale] = useState(1);
-  const iframeRef = useRef(null);
+  const [pdfData, setPdfData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!selected) {
-    return <p className="pt-24 text-center text-red-600">PDF not found.</p>;
-  }
-
-  const handleShare = async () => {
-    try {
-      const url = window.location.href;
-      if (navigator.share) {
-        await navigator.share({ title: selected.title, url });
-      } else {
-        await navigator.clipboard.writeText(url);
-        alert("Link copied to clipboard!");
+  useEffect(() => {
+    async function fetchPdf() {
+      try {
+        const res = await fetch("/api/upload");
+        const data = await res.json();
+        const selected = data.find((p) => p.name === file);
+        setPdfData(selected || null);
+      } catch (err) {
+        console.error("Failed to load PDF:", err);
+        setPdfData(null);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.log("Share failed:", err);
     }
-  };
+    fetchPdf();
+  }, [file]);
 
-  const openFullscreen = () => {
-    const iframeEl = iframeRef.current;
-    if (iframeEl.requestFullscreen) {
-      iframeEl.requestFullscreen();
-    } else if (iframeEl.webkitRequestFullscreen) {
-      iframeEl.webkitRequestFullscreen(); // Safari
-    } else if (iframeEl.msRequestFullscreen) {
-      iframeEl.msRequestFullscreen(); // IE/Edge
-    }
-  };
+  if (loading) return <p className="pt-24 text-center text-gray-600">Loading PDF...</p>;
+  if (!pdfData) return <p className="pt-24 text-center text-red-600">PDF not found.</p>;
+
+  // Google PDF Viewer URL
+  const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfData.url)}&embedded=true`;
 
   return (
-    <div className="max-w-6xl mx-auto pt-24">
+    <div className="max-w-7xl justify-center items-center mx-auto pt-24 px-4 sm:px-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-        <div className="flex items-center">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
+        <div className="flex items-center flex-wrap gap-2">
           <button
-            onClick={() => router.push("/entrance-questions")}
-            className="text-gray-700 hover:text-blue-600 mr-4 font-semibold hover:bg-gray-200 p-1 hover:shadow rounded-xl flex items-center"
+            onClick={() => router.push("/entrance/model-question")}
+            className="text-gray-700 hover:text-blue-600 font-semibold hover:bg-gray-200 px-2 py-1 hover:shadow rounded-xl flex items-center"
           >
             <span className="mr-1">←</span> Back
           </button>
-          <h1 className="text-3xl font-bold text-blue-900">{selected.title}</h1>
+          <h1 className="text-xl sm:text-3xl font-bold text-blue-900 break-words">
+            {pdfData.name}
+          </h1>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex gap-3">
-      
-          {/* Fullscreen */}
-          <button onClick={openFullscreen} className={fsBtnRound}>
-            <FaExpandAlt />
-          </button>
-
-          {/* Share */}
-          <button onClick={handleShare} className={fsBtnRound}>
-            <FaShareAlt />
-          </button>
-
-          {/* Download */}
-          <button
-            onClick={() => {
-              const link = document.createElement("a");
-              link.href = selected.path;
-              link.download = `${file}.pdf`;
-              link.click();
-            }}
-            className="border rounded-lg shadow px-4 py-2 bg-blue-900 hover:bg-blue-600 text-white"
-          >
-            Download
-          </button>
-        </div>
+        {/* Download Button */}
+        <a
+          href={pdfData.url}
+          download={pdfData.name}
+          className="border rounded-lg shadow px-3 py-2 sm:px-4 bg-blue-900 hover:bg-blue-600 text-white text-sm sm:text-base"
+        >
+          Download
+        </a>
       </div>
 
-      {/* PDF Viewer */}
-      <div className="border justify-self-center rounded shadow overflow-auto h-[80vh] w-full">
-        <div
-          style={{
-            transform: `scale(${scale})`,
-            transformOrigin: "top left",
-            width: `${100 / scale}%`, // ensures full width when scaled
-          }}
-        >
-          <iframe
-            ref={iframeRef}
-            src={selected.path} // ✅ dynamic PDF path
-            className="w-full h-[80vh]"
-            title={selected.title}
-            style={{ border: "none" }}
-          />
-        </div>
+      {/* Google PDF Viewer */}
+      <div className="border justify-self-center rounded shadow overflow-hidden h-[75vh] sm:h-[80vh] w-[70vw] bg-gray-50">
+        <iframe
+          src={googleViewerUrl}
+          width="100%"
+          height="100%"
+          style={{ border: 'none' }}
+          title={`PDF Viewer - ${pdfData.name}`}
+        />
       </div>
     </div>
   );
