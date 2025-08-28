@@ -1,6 +1,6 @@
-// data/quizQuestions.js
+// data/quiz.js
 
-const quizQuestions = [
+const quiz= [
   // --- General Knowledge ---
   {
     id: 1,
@@ -94,4 +94,4 @@ const quizQuestions = [
   },
 ];
 
-export default quizQuestions;
+export default quiz;
